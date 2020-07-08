@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  # psql -h localhost -p 5432 -U postgres
+  posgre:
+    image: postgres:12-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_tmp:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+
+  minio:
+    image: "minio/minio"
+    hostname: minio
+    command: server /data
+    env_file: .env
+    ports:
+      - "9000:9000"
